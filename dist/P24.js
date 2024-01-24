@@ -179,10 +179,24 @@ var P24 = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        isValid = this.verifyTransactionNotification(data);
+                        isValid = this.verifyTransactionNotification({
+                            sessionId: data.sessionId,
+                            amount: data.amount,
+                            originAmount: data.originAmount,
+                            currency: data.currency,
+                            methodId: data.methodId,
+                            orderId: data.orderId,
+                            statement: data.statement,
+                            sign: data.sign,
+                        });
                         if (!isValid)
                             return [2, false];
-                        return [4, this.verifyTransaction(data)];
+                        return [4, this.verifyTransaction({
+                                sessionId: data.sessionId,
+                                amount: data.amount,
+                                currency: data.currency,
+                                orderId: data.orderId,
+                            })];
                     case 1: return [2, _a.sent()];
                 }
             });

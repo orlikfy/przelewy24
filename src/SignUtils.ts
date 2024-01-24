@@ -43,8 +43,7 @@ export class SignUtils {
   getRefundNotificationSign(data: RefundNotificationSignData) {
     return crypto
       .createHash('sha384')
-      .update(`{"orderId":${data.orderId},"sessionId":"${data.sessionId}","refundsUuid":"${data.refundsUuid}","merchantId":${this.merchantId},"amount":${data.amount},
-      "currency":"${data.currency}","status":${data.status},"crc":"${this.crc}"}`)
+      .update(`{"orderId":${data.orderId},"sessionId":"${data.sessionId}","refundsUuid":"${data.refundsUuid}","merchantId":${this.merchantId},"amount":${data.amount},"currency":"${data.currency}","status":${data.status},"crc":"${this.crc}"}`)
       .digest('hex');
   }
 }
