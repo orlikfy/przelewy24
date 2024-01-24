@@ -52,7 +52,7 @@ var SignUtils = (function () {
     SignUtils.prototype.getRefundNotificationSign = function (data) {
         return crypto
             .createHash('sha384')
-            .update("{\"orderId\":".concat(data.orderId, ",\"sessionId\":\"").concat(data.sessionId, "\",\"refundsUuid\":\"").concat(data.refundsUuid, "\",\"merchantId\":").concat(this.merchantId, ",\"amount\":").concat(data.amount, ",\n      \"currency\":\"").concat(data.currency, "\",\"status\":").concat(data.status, ",\"crc\":\"").concat(this.crc, "\"}"))
+            .update("{\"orderId\":".concat(data.orderId, ",\"sessionId\":\"").concat(data.sessionId, "\",\"refundsUuid\":\"").concat(data.refundsUuid, "\",\"merchantId\":").concat(this.merchantId, ",\"amount\":").concat(data.amount, ",\"currency\":\"").concat(data.currency, "\",\"status\":").concat(data.status, ",\"crc\":\"").concat(this.crc, "\"}"))
             .digest('hex');
     };
     return SignUtils;
