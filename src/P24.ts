@@ -111,7 +111,10 @@ export class P24 {
     const verifyData = {...data};
 
     const req = {
-      ...verifyData, sign: this.signUtils.getVerifySign(verifyData)
+      ...verifyData, 
+      merchantId: this.merchantId,
+      posId: this.posId,
+      sign: this.signUtils.getVerifySign(verifyData)
     }
 
     const res = await this.axiosInstance.put('/transaction/verify', req);
