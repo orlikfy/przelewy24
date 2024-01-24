@@ -123,9 +123,24 @@ export class P24 {
   }
 
   async verifyNotificationAndTransaction(data: TransactionNotificationConfig & VerifyTransactionConfig): Promise<boolean> {
-    const isValid = this.verifyTransactionNotification(data);
+    const isValid = this.verifyTransactionNotification({
+      sessionId: data.sessionId,
+      amount: data.amount,
+      originAmount: data.originAmount,
+      currency: data.currency,
+      methodId: data.methodId,
+      orderId: data.orderId,
+      statement: data.statement,
+      sign: data.sign,
+    });
+
     if (!isValid) return false;
-    return await this.verifyTransaction(data);
+    return await this.verifyTransaction({
+      sessionId: data.sessionId,
+      amount: data.amount,
+      currency: data.currency,
+      orderId: data.orderId,
+    });
   }
 
   async refund(data: RefundConfig): Promise<RefundResponse[]> {

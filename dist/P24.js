@@ -163,7 +163,7 @@ var P24 = (function () {
                 switch (_c.label) {
                     case 0:
                         verifyData = __assign({}, data);
-                        req = __assign(__assign({}, verifyData), { sign: this.signUtils.getVerifySign(verifyData) });
+                        req = __assign(__assign({}, verifyData), { merchantId: this.merchantId, posId: this.posId, sign: this.signUtils.getVerifySign(verifyData) });
                         return [4, this.axiosInstance.put('/transaction/verify', req)];
                     case 1:
                         res = _c.sent();
