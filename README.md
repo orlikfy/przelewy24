@@ -7,7 +7,7 @@ This Node.js SDK provides a convenient way to interact with Przelewy24 (P24) pay
 Install the package using npm:
 
 ```bash
-npm install p24-node-sdk
+npm install @dimski/przelewy24
 ```
 
 ## Usage
