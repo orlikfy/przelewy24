@@ -60,8 +60,7 @@ export class P24 {
   }
 
   async testAccess() {
-    await this.axiosInstance.get('/transaction/testAccess');
-    return;
+    await this.axiosInstance.get('/testAccess');
   }
 
   async getPaymentMethods(data: PaymentMethodsConfig): Promise<PaymentMethodsResponse> {
