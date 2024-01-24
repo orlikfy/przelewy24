@@ -12,10 +12,13 @@ npm install p24-node-sdk
 
 ## Usage
 
-```javascript
-const { P24 } = require('p24-node-sdk');
+### Initialize P24 instance
 
-// Initialize P24 instance
+```javascript
+const { P24 } = require('@dimski/przelewy24');
+// or
+import { P24 } from "@dimski/przelewy24";
+
 const p24 = new P24({
   prod: false,  // Set to true for production environment
   merchantId: YOUR_MERCHANT_ID,
@@ -28,15 +31,22 @@ const p24 = new P24({
     language: 'pl',
   },
 });
+```
 
-// Test access to the Przelewy24 API
+### Test access to the Przelewy24 API
+
+```javascript
 try {
   await p24.testAccess();
   console.log('Connection to Przelewy24 API successful.');
 } catch (error) {
   console.error('Connection to Przelewy24 API failed:', error.message);
 }
+```
 
+### Get available payment methods
+
+```javascript
 // Specify the configuration for getting payment methods
 const paymentMethodsConfig = {
   lang: 'pl',  // Language code ('en' for English, 'pl' for Polish, etc.)
@@ -51,8 +61,11 @@ try {
 } catch (error) {
   console.error('Failed to retrieve payment methods:', error.message);
 }
+```
 
-// Validate IP
+### Validate IP
+
+```javascript
 const exampleIP = '91.216.191.182';
 const isValidIP = p24.validateIP(exampleIP);
 
@@ -61,8 +74,11 @@ if (isValidIP) {
 } else {
   console.error(`IP ${exampleIP} is not within the valid IP range.`);
 }
+```
 
-// Example: Register a transaction
+### Register a transaction
+
+```javascript
 const transactionData = await p24.registerTransaction({
   sessionId: 'unique_session_id',
   amount: 1000,
@@ -74,7 +90,11 @@ const transactionData = await p24.registerTransaction({
 });
 
 console.log('Transaction token:', transactionData.token);
+```
 
+### Verify the transaction notification
+
+```javascript
 // Example transaction notification data
 const notificationData = {
   sessionId: 'unique_session_id',
@@ -95,7 +115,11 @@ if (isNotificationValid) {
 } else {
   console.error('Transaction notification is not valid. Possible tampering detected.');
 }
+```
 
+### Verify transaction
+
+```javascript
 // Example: Verify transaction
 const verifyData = {
   sessionId: 'unique_session_id',
@@ -111,7 +135,11 @@ if (isTransactionVerified) {
 } else {
   console.log('Transaction verification failed.');
 }
+```
 
+### Verify the notification and transaction using one method
+
+```javascript
 // Example data for notification verification and transaction verification
 const verificationData = {
   sessionId: 'unique_session_id',
@@ -134,7 +162,11 @@ if (isVerificationSuccessful) {
 } else {
   console.error('Verification failed. Possible tampering or unsuccessful transaction.');
 }
+```
 
+### Refund
+
+```javascript
 // Example data for initiating a refund
 const refundData = {
   requestId: 'unique_request_id',
@@ -161,7 +193,11 @@ try {
 } catch (error) {
   console.error('Refund failed:', error.message);
 }
+```
 
+### Verify the refund notification
+
+```javascript
 // Example data for verifying a refund notification
 const refundNotificationData = {
   orderId: 123456,               // Order ID for the refunded transaction
@@ -183,7 +219,6 @@ if (isVerified) {
 } else {
   console.error('Refund notification verification failed.');
 }
-
 ```
 
 ## Documentation
