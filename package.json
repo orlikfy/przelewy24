@@ -1,15 +1,16 @@
 {
   "name": "@dimski/przelewy24",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Library for Przelewy24",
   "main": "dist/index.js",
-  "type": "module",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "npx nodemon",
     "build": "npx tsc",
     "start": "npm run build && node dist/index",
     "lint": "npx eslint ./src",
-    "format": "npx eslint ./src --fix"
+    "format": "npx eslint ./src --fix",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",

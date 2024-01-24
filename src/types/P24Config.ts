@@ -1,4 +1,4 @@
-import { P24ConfigDefaultValues } from "./P24ConfigDefaultValues.js";
+import { P24ConfigDefaultValues } from "./P24ConfigDefaultValues";
 
 
 export interface P24Config {

@@ -1,4 +1,4 @@
-import { Refund } from "./Refund.js";
+import { Refund } from "./Refund";
 
 
 export interface RefundConfig {

@@ -1,7 +1,7 @@
 import * as crypto from 'crypto';
-import { VerifySignData } from './types/VerifySignData.js';
-import { RefundNotificationSignData } from './types/RefundNotificationSignData.js';
-import { TransactionNotificationSignData } from './types/TransactionNotificationSignData.js';
+import { VerifySignData } from './types/VerifySignData';
+import { RefundNotificationSignData } from './types/RefundNotificationSignData';
+import { TransactionNotificationSignData } from './types/TransactionNotificationSignData';
 
 
 export class SignUtils {

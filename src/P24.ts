@@ -1,18 +1,18 @@
 import axios, { AxiosInstance } from 'axios';
-import { CONFIG_DEFAULT_VALUES } from './constants/CONFIG_DEFAULT_VALUES.js';
-import { PRZELEWY24_IP_LIST } from './constants/PRZELEWY24_IP_LIST.js';
-import { SignUtils } from './SignUtils.js';
-import { VerifyTransactionConfig } from './types/VerifyTransactionConfig.js';
-import { RefundConfig } from './types/RefundConfig.js';
-import { RefundNotificationConfig } from './types/RefundNotificationConfig.js';
-import { PaymentMethodsConfig } from './types/PaymentMethodsConfig.js';
-import { PaymentMethodsResponse } from './types/PaymentMethodsResponse.js';
-import { RegisterTransactionConfig } from './types/RegisterTransactionConfig.js';
-import { RegisterTransactionResponse } from './types/RegisterTransactionResponse.js';
-import { TransactionNotificationConfig } from './types/TransactionNotificationConfig.js';
-import { RefundResponse } from './types/RefundResponse.js';
-import { P24ConfigDefaultValues } from './types/P24ConfigDefaultValues.js';
-import { P24Config } from './types/P24Config.js';
+import { CONFIG_DEFAULT_VALUES } from './constants/CONFIG_DEFAULT_VALUES';
+import { PRZELEWY24_IP_LIST } from './constants/PRZELEWY24_IP_LIST';
+import { SignUtils } from './SignUtils';
+import { VerifyTransactionConfig } from './types/VerifyTransactionConfig';
+import { RefundConfig } from './types/RefundConfig';
+import { RefundNotificationConfig } from './types/RefundNotificationConfig';
+import { PaymentMethodsConfig } from './types/PaymentMethodsConfig';
+import { PaymentMethodsResponse } from './types/PaymentMethodsResponse';
+import { RegisterTransactionConfig } from './types/RegisterTransactionConfig';
+import { RegisterTransactionResponse } from './types/RegisterTransactionResponse';
+import { TransactionNotificationConfig } from './types/TransactionNotificationConfig';
+import { RefundResponse } from './types/RefundResponse';
+import { P24ConfigDefaultValues } from './types/P24ConfigDefaultValues';
+import { P24Config } from './types/P24Config';
 
 
 const PROD_BASE_URL = 'https://secure.przelewy24.pl';
