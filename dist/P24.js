@@ -66,6 +66,7 @@ var axios_1 = __importDefault(require("axios"));
 var CONFIG_DEFAULT_VALUES_1 = require("./constants/CONFIG_DEFAULT_VALUES");
 var PRZELEWY24_IP_LIST_1 = require("./constants/PRZELEWY24_IP_LIST");
 var SignUtils_1 = require("./SignUtils");
+var P24Error_1 = require("./P24Error");
 var PROD_BASE_URL = 'https://secure.przelewy24.pl';
 var PROD_API_BASE_URL = PROD_BASE_URL + '/api/v1';
 var DEV_BASE_URL = 'https://sandbox.przelewy24.pl';
@@ -89,45 +90,70 @@ var P24 = (function () {
     }
     P24.prototype.testAccess = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var res, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, this.axiosInstance.get('/testAccess')];
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.axiosInstance.get('/testAccess')];
                     case 1:
-                        _a.sent();
-                        return [2];
+                        res = _a.sent();
+                        if (res.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+                        }
+                        return [3, 3];
+                    case 2:
+                        error_1 = _a.sent();
+                        if (error_1.response && error_1.response.data && error_1.response.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(error_1.response.data.error.errorCode, error_1.response.data.error.errorMessage || error_1.response.data.error);
+                        }
+                        throw error_1;
+                    case 3: return [2];
                 }
             });
         });
     };
     P24.prototype.getPaymentMethods = function (data) {
         return __awaiter(this, void 0, void 0, function () {
-            var lang, params, res;
+            var lang, params, res, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        _a.trys.push([0, 2, , 3]);
                         lang = data.lang, params = __rest(data, ["lang"]);
                         return [4, this.axiosInstance.get("/payment/methods/".concat(lang), { params: params })];
                     case 1:
                         res = _a.sent();
+                        if (res.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+                        }
                         return [2, res.data];
+                    case 2:
+                        error_2 = _a.sent();
+                        if (error_2.response && error_2.response.data && error_2.response.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(error_2.response.data.error.errorCode, error_2.response.data.error.errorMessage);
+                        }
+                        throw error_2;
+                    case 3: return [2];
                 }
             });
         });
     };
     P24.prototype.registerTransaction = function (data) {
         return __awaiter(this, void 0, void 0, function () {
-            var req, res, resData, token;
+            var req, res, resData, token, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        _a.trys.push([0, 2, , 3]);
                         req = __assign(__assign({}, data), { merchantId: this.merchantId, posId: this.posId, sign: '' });
                         if (!req.country && this.defaultValues.country)
                             req.country = this.defaultValues.country;
                         if (!req.language && this.defaultValues.language)
                             req.language = this.defaultValues.language;
-                        if (!req.waitForResult && req.waitForResult !== false && typeof (this.defaultValues.waitForResult) === 'boolean')
+                        if (!req.waitForResult && req.waitForResult !== false && typeof this.defaultValues.waitForResult === 'boolean')
                             req.waitForResult = this.defaultValues.waitForResult;
-                        if (!req.regulationAccept && req.regulationAccept !== false && typeof (this.defaultValues.regulationAccept) === 'boolean')
+                        if (!req.regulationAccept && req.regulationAccept !== false && typeof this.defaultValues.regulationAccept === 'boolean')
                             req.regulationAccept = this.defaultValues.regulationAccept;
                         req.sign = this.signUtils.getRegisterTransactionSign({
                             sessionId: req.sessionId,
@@ -137,12 +163,22 @@ var P24 = (function () {
                         return [4, this.axiosInstance.post('/transaction/register', req)];
                     case 1:
                         res = _a.sent();
+                        if (res.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+                        }
                         resData = res.data;
                         token = resData.data.token;
                         return [2, {
                                 token: token,
                                 redirectUrl: "".concat(this.baseURL, "/trnRequest/").concat(token),
                             }];
+                    case 2:
+                        error_3 = _a.sent();
+                        if (error_3.response && error_3.response.data && error_3.response.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(error_3.response.data.error.errorCode, error_3.response.data.error.errorMessage);
+                        }
+                        throw error_3;
+                    case 3: return [2];
                 }
             });
         });
@@ -158,17 +194,28 @@ var P24 = (function () {
     P24.prototype.verifyTransaction = function (data) {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var verifyData, req, res, status;
+            var verifyData, req, res, status, error_4;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
+                        _c.trys.push([0, 2, , 3]);
                         verifyData = __assign({}, data);
                         req = __assign(__assign({}, verifyData), { merchantId: this.merchantId, posId: this.posId, sign: this.signUtils.getVerifySign(verifyData) });
                         return [4, this.axiosInstance.put('/transaction/verify', req)];
                     case 1:
                         res = _c.sent();
+                        if (res.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+                        }
                         status = (_b = (_a = res.data) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.status;
                         return [2, status === 'success'];
+                    case 2:
+                        error_4 = _c.sent();
+                        if (error_4.response && error_4.response.data && error_4.response.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(error_4.response.data.error.errorCode, error_4.response.data.error.errorMessage, error_4);
+                        }
+                        throw error_4;
+                    case 3: return [2];
                 }
             });
         });
@@ -204,13 +251,25 @@ var P24 = (function () {
     };
     P24.prototype.refund = function (data) {
         return __awaiter(this, void 0, void 0, function () {
-            var res;
+            var res, error_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, this.axiosInstance.post('/transaction/refund', data)];
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.axiosInstance.post('/transaction/refund', data)];
                     case 1:
                         res = _a.sent();
+                        if (res.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+                        }
                         return [2, res.data.data];
+                    case 2:
+                        error_5 = _a.sent();
+                        if (error_5.response && error_5.response.data && error_5.response.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(error_5.response.data.error.errorCode, error_5.response.data.error.errorMessage);
+                        }
+                        throw error_5;
+                    case 3: return [2];
                 }
             });
         });
@@ -230,6 +289,249 @@ var P24 = (function () {
                 username: this.posId.toString(),
                 password: this.apiKey,
             },
+        });
+    };
+    P24.prototype.registerMerchant = function (data) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, error_6;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.axiosInstance.post('/merchant/register', data)];
+                    case 1:
+                        res = _a.sent();
+                        if (res.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+                        }
+                        return [2, res.data.data];
+                    case 2:
+                        error_6 = _a.sent();
+                        if (error_6.response && error_6.response.data && error_6.response.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(error_6.response.data.error.errorCode, error_6.response.data.error.errorMessage);
+                        }
+                        throw error_6;
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    P24.prototype.doesMerchantExist = function (pathParams) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, error_7;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.axiosInstance.get("/merchant/exists/".concat(pathParams.identificationType, "/").concat(pathParams.identificationNumber))];
+                    case 1:
+                        res = _a.sent();
+                        if (res.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+                        }
+                        return [2, res.data.data];
+                    case 2:
+                        error_7 = _a.sent();
+                        if (error_7.response && error_7.response.data && error_7.response.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(error_7.response.data.error.errorCode, error_7.response.data.error.errorMessage);
+                        }
+                        throw error_7;
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    P24.prototype.dispatchTransaction = function (data) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, error_8;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.axiosInstance.post('/multiStore/dispatchTransaction', data)];
+                    case 1:
+                        res = _a.sent();
+                        if (res.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+                        }
+                        return [2, res.data.data];
+                    case 2:
+                        error_8 = _a.sent();
+                        if (error_8.response && error_8.response.data && error_8.response.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(error_8.response.data.error.errorCode, error_8.response.data.error.errorMessage);
+                        }
+                        throw error_8;
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    P24.prototype.getDispatchTransactionInfo = function (pathParams) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, error_9;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.axiosInstance.get("/multiStore/dispatchInfo/".concat(pathParams.orderId))];
+                    case 1:
+                        res = _a.sent();
+                        if (res.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+                        }
+                        return [2, res.data.data];
+                    case 2:
+                        error_9 = _a.sent();
+                        if (error_9.response && error_9.response.data && error_9.response.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(error_9.response.data.error.errorCode, error_9.response.data.error.errorMessage);
+                        }
+                        throw error_9;
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    P24.prototype.getMerchantBalance = function (queryParams) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, error_10;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.axiosInstance.get("/multiStore/funds?merchantId=".concat(queryParams.merchantId))];
+                    case 1:
+                        res = _a.sent();
+                        if (res.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+                        }
+                        return [2, res.data.data];
+                    case 2:
+                        error_10 = _a.sent();
+                        if (error_10.response && error_10.response.data && error_10.response.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(error_10.response.data.error.errorCode, error_10.response.data.error.errorMessage);
+                        }
+                        throw error_10;
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    P24.prototype.getRegisteredMerchants = function (queryParams) {
+        return __awaiter(this, void 0, void 0, function () {
+            var affiliateQuery, res, error_11;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        affiliateQuery = queryParams.merchantId ? "merchantId=".concat(queryParams.merchantId) : '';
+                        return [4, this.axiosInstance.get("/multiStore/affiliates?".concat(affiliateQuery))];
+                    case 1:
+                        res = _a.sent();
+                        if (res.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+                        }
+                        return [2, res.data.data];
+                    case 2:
+                        error_11 = _a.sent();
+                        if (error_11.response && error_11.response.data && error_11.response.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(error_11.response.data.error.errorCode, error_11.response.data.error.errorMessage);
+                        }
+                        throw error_11;
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    P24.prototype.refundDispatchTransaction = function (data) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, rawData, error_12;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.axiosInstance.post('/multiStore/refund', __assign(__assign({}, data), { refunds: data.refunds.map(function (refund) { return (__assign(__assign({}, refund), { data: refund.data.map(function (data) { return ({
+                                        spId: data.merchantId,
+                                        spAmount: data.refundAmountInZLGroshes,
+                                    }); }) })); }) }))];
+                    case 1:
+                        res = _a.sent();
+                        if (res.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+                        }
+                        rawData = res.data.data;
+                        return [2, rawData.map(function (entry) { return ({
+                                orderId: entry.orderId,
+                                sessionId: entry.sessionId,
+                                amount: entry.amount,
+                                data: entry.data.map(function (data) { return ({
+                                    merchantId: data.spId,
+                                    refundAmountInZLGroshes: data.spAmount,
+                                }); }),
+                                description: entry.description,
+                                status: entry.status,
+                                message: entry.message,
+                            }); })];
+                    case 2:
+                        error_12 = _a.sent();
+                        if (error_12.response && error_12.response.data && error_12.response.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(error_12.response.data.error.errorCode, error_12.response.data.error.errorMessage);
+                        }
+                        throw error_12;
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    P24.prototype.getSubMerchantCRC = function (_a) {
+        var merchantId = _a.merchantId;
+        return __awaiter(this, void 0, void 0, function () {
+            var res, error_13;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        return [4, this.axiosInstance.get("/multiStore/".concat(merchantId, "/crc"))];
+                    case 1:
+                        res = _b.sent();
+                        if (res.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+                        }
+                        return [2, res.data.data];
+                    case 2:
+                        error_13 = _b.sent();
+                        if (error_13.response && error_13.response.data && error_13.response.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(error_13.response.data.error.errorCode, error_13.response.data.error.errorMessage);
+                        }
+                        throw error_13;
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    P24.prototype.getSubMerchantApiKey = function (_a) {
+        var merchantId = _a.merchantId;
+        return __awaiter(this, void 0, void 0, function () {
+            var res, error_14;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        return [4, this.axiosInstance.get("/multiStore/".concat(merchantId, "/apiKey"))];
+                    case 1:
+                        res = _b.sent();
+                        if (res.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+                        }
+                        return [2, res.data];
+                    case 2:
+                        error_14 = _b.sent();
+                        if (error_14.response && error_14.response.data && error_14.response.data.error) {
+                            throw P24Error_1.P24Error.fromResponse(error_14.response.data.error.errorCode, error_14.response.data.error.errorMessage);
+                        }
+                        throw error_14;
+                    case 3: return [2];
+                }
+            });
         });
     };
     return P24;
