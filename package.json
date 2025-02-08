@@ -1,6 +1,6 @@
 {
   "name": "@orlikfy/przelewy24",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Library for Przelewy24 forked from @dimski/przelewy24",
   "main": "dist/index.js",
   "types": "./dist/index.d.ts",
