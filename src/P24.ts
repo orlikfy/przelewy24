@@ -96,11 +96,11 @@ export class P24 {
     try {
       const res = await this.axiosInstance.get('/testAccess');
       if (res.data.error) {
-        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage, res.data.error);
       }
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
-        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage || error.response.data.error);
+        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage, error || error.response.data.error);
       }
       throw error;
     }
@@ -111,12 +111,12 @@ export class P24 {
       const { lang, ...params } = data;
       const res = await this.axiosInstance.get(`/payment/methods/${lang}`, { params });
       if (res.data.error) {
-        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage, res.data.error);
       }
       return res.data;
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
-        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage);
+        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage, error);
       }
       throw error;
     }
@@ -144,7 +144,7 @@ export class P24 {
 
       const res = await this.axiosInstance.post('/transaction/register', req);
       if (res.data.error) {
-        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage, res.data.error);
       }
       const resData = res.data;
       const token = resData.data.token;
@@ -155,7 +155,7 @@ export class P24 {
       };
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
-        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage);
+        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage, error);
       }
       throw error;
     }
@@ -183,7 +183,7 @@ export class P24 {
 
       const res = await this.axiosInstance.put('/transaction/verify', req);
       if (res.data.error) {
-        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage, res.data.error);
       }
       const status = res.data?.data?.status;
       return status === 'success';
@@ -220,12 +220,12 @@ export class P24 {
     try {
       const res = await this.axiosInstance.post('/transaction/refund', data);
       if (res.data.error) {
-        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage, res.data.error);
       }
       return res.data.data;
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
-        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage);
+        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage, error);
       }
       throw error;
     }
@@ -254,12 +254,13 @@ export class P24 {
     try {
       const res = await this.axiosInstance.post('/merchant/register', data);
       if (res.data.error) {
-        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage, res.data.error);
       }
       return res.data.data;
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
-        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage);
+        console.log(JSON.stringify(error.response.data, null, 2));
+        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage, error);
       }
       throw error;
     }
@@ -272,12 +273,12 @@ export class P24 {
     try {
       const res = await this.axiosInstance.get(`/merchant/exists/${pathParams.identificationType}/${pathParams.identificationNumber}`);
       if (res.data.error) {
-        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage, res.data.error);
       }
       return res.data.data;
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
-        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage);
+        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage, error);
       }
       throw error;
     }
@@ -287,12 +288,12 @@ export class P24 {
     try {
       const res = await this.axiosInstance.post('/multiStore/dispatchTransaction', data);
       if (res.data.error) {
-        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage, res.data.error);
       }
       return res.data.data;
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
-        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage);
+        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage, error);
       }
       throw error;
     }
@@ -302,12 +303,12 @@ export class P24 {
     try {
       const res = await this.axiosInstance.get(`/multiStore/dispatchInfo/${pathParams.orderId}`);
       if (res.data.error) {
-        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage, res.data.error);
       }
       return res.data.data;
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
-        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage);
+        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage, error);
       }
       throw error;
     }
@@ -317,12 +318,12 @@ export class P24 {
     try {
       const res = await this.axiosInstance.get(`/multiStore/funds?merchantId=${queryParams.merchantId}`);
       if (res.data.error) {
-        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage, res.data.error);
       }
       return res.data.data;
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
-        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage);
+        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage, error);
       }
       throw error;
     }
@@ -333,12 +334,12 @@ export class P24 {
       const affiliateQuery = queryParams.merchantId ? `merchantId=${queryParams.merchantId}` : '';
       const res = await this.axiosInstance.get(`/multiStore/affiliates?${affiliateQuery}`);
       if (res.data.error) {
-        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage, res.data.error);
       }
       return res.data.data;
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
-        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage);
+        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage, error);
       }
       throw error;
     }
@@ -358,7 +359,7 @@ export class P24 {
         })),
       });
       if (res.data.error) {
-        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage, res.data.error);
       }
       const rawData: RefundDispatchedRawResponseEntry[] = res.data.data;
       return rawData.map(entry => ({
@@ -375,7 +376,7 @@ export class P24 {
       }));
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
-        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage);
+        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage, error);
       }
       throw error;
     }
@@ -385,12 +386,12 @@ export class P24 {
     try {
       const res = await this.axiosInstance.get(`/multiStore/${merchantId}/crc`);
       if (res.data.error) {
-        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage, res.data.error);
       }
       return res.data.data;
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
-        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage);
+        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage, error);
       }
       throw error;
     }
@@ -400,12 +401,12 @@ export class P24 {
     try {
       const res = await this.axiosInstance.get(`/multiStore/${merchantId}/apiKey`);
       if (res.data.error) {
-        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage);
+        throw P24Error.fromResponse(res.data.error.errorCode, res.data.error.errorMessage, res.data.error);
       }
       return res.data;
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.error) {
-        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage);
+        throw P24Error.fromResponse(error.response.data.error.errorCode, error.response.data.error.errorMessage, error);
       }
       throw error;
     }

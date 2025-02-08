@@ -1,4 +1,6 @@
 import { P24 } from "./P24";
+import { P24TradeCategory } from "./enums/TradeCategoryEnum";
+import { P24BusinessTypeEnum } from "./enums/BusinessTypeEnum";
 
 const testEmail = process.env.TEST_EMAIL || 'test@email.com';
 describe("P24 test", () => {
@@ -85,6 +87,41 @@ describe("P24 test", () => {
     };
     const isTransactionVerified = await p24.verifyTransaction(verifyData);
     console.log('Transaction verified', isTransactionVerified);
+  });
+
+  fit('Should register merchant', async () => {
+    const registrationResult = await p24.registerMerchant({
+      business_type: P24BusinessTypeEnum.Individual,
+      name: 'Test',
+      email: testEmail,
+      phone_number: '123456789',
+      bank_account: 'PL61109010140000071219812874',
+      invoice_email: testEmail,
+      trade: P24TradeCategory.SportAndRecreation,
+      contact_person: {
+        name: 'Test Test',
+        email: testEmail,
+        phone_number: '123456789',
+      },
+      technical_contact: {
+        name: 'Test Test',
+        email: testEmail,
+        phone_number: '123456789',
+      },
+      address: {
+        city: 'Test',
+        post_code: '12-345',
+        street: 'Test',
+        country: 'PL',
+      },
+      correspondence_address: {
+        city: 'Test',
+        post_code: '12-345',
+        street: 'Test',
+        country: 'PL',
+      },
+    });
+    console.log('Merchant registered', JSON.stringify(registrationResult, null, 2));
   });
 
 });

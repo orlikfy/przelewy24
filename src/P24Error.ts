@@ -10,7 +10,7 @@ export class P24Error extends Error {
     this.name = 'P24Error';
   }
 
-  static fromResponse(errorCode: string, errorMessage: string, error?: any): P24Error {
+  static fromResponse(errorCode: string, errorMessage: string, error: any): P24Error {
     const mappedMessage = P24ErrorCodeMapping[errorCode] || errorMessage;
     if(!mappedMessage) {
       console.warn(`Unknown error code: ${errorCode}, not able to extract error message, just logging error.`);
